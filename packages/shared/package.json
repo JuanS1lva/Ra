@@ -1,0 +1,13 @@
+{
+    "name": "@app/shared",
+    "version": "0.0.1",
+    "private": true,
+    "main": "src/index.ts",
+    "types": "src/index.ts",
+    "scripts": {
+      "dev": "echo shared",
+      "build": "echo shared",
+      "lint": "echo shared",
+      "typecheck": "echo shared"
+    }
+  }
