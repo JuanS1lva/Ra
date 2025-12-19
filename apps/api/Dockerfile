@@ -1,14 +1,17 @@
 # Base
 FROM node:20-alpine AS base
 WORKDIR /app
-RUN corepack enable
 
-# Dependencies
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Dependencies (solo api + deps)
 FROM base AS deps
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY apps/api/package.json apps/api/package.json
 COPY packages/shared/package.json packages/shared/package.json
-RUN pnpm install --frozen-lockfile
+
+# 👇 CLAVE: instalar SOLO el workspace api
+RUN pnpm install --filter api... --frozen-lockfile
 
 # Dev
 FROM deps AS dev
@@ -27,8 +30,10 @@ RUN pnpm build
 FROM node:20-alpine AS prod
 WORKDIR /app
 ENV NODE_ENV=production
+
 COPY --from=build /app/apps/api/dist ./dist
 COPY --from=deps /app/apps/api/package.json ./package.json
 COPY --from=deps /app/node_modules ./node_modules
+
 EXPOSE 4000
 CMD ["node", "dist/main.js"]
