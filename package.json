@@ -8,6 +8,9 @@
       "lint": "pnpm -r lint",
       "typecheck": "pnpm -r typecheck",
       "api:dev": "pnpm --filter @app/api dev",
-      "web:dev": "pnpm --filter @app/web dev"
+      "web:dev": "pnpm --filter @app/web dev",
+      "prisma:generate": "pnpm --filter @app/api prisma generate",
+      "prisma:migrate": "pnpm --filter @app/api prisma migrate dev",
+      "prisma:studio": "pnpm --filter @app/api prisma studio"
     }
   }
