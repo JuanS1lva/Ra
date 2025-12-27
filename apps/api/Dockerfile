@@ -11,7 +11,8 @@ COPY apps/api/package.json apps/api/package.json
 COPY packages/shared/package.json packages/shared/package.json
 
 # 👇 CLAVE: instalar SOLO el workspace api
-RUN pnpm install --filter api... --frozen-lockfile
+RUN pnpm install --filter api... --frozen-lockfile \
+ && pnpm -C apps/api prisma:generate
 
 # Dev
 FROM deps AS dev
