@@ -19,7 +19,8 @@ FROM deps AS dev
 COPY . .
 WORKDIR /app/apps/api
 EXPOSE 4000
-CMD ["pnpm", "dev"]
+# Aplicar migraciones nuevas en desarrollo y arrancar en modo watch.
+CMD ["sh", "-c", "pnpm prisma:migrate && pnpm dev"]
 
 # Build
 FROM deps AS build
