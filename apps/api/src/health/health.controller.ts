@@ -1,4 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { TenantGuard } from '../context/tenant.guard';
+import { TenantId } from '../context/decorators/tenant-id.decorator';
+import { UserId } from '../context/decorators/user-id.decorator';
 
 @Controller()
 export class HealthController {
@@ -20,6 +23,19 @@ export class HealthController {
       ready: true,
       timestamp: new Date().toISOString(),
       note: 'TODO: Replace with Prisma readiness check',
+    };
+  }
+
+  @UseGuards(TenantGuard)
+  @Get('context')
+  getRequestContext(
+    @TenantId() tenantId: string,
+    @UserId() userId?: string,
+  ) {
+    return {
+      tenantId,
+      userId,
+      note: 'Example endpoint using request context',
     };
   }
 }
