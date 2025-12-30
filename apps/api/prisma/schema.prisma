@@ -6,3 +6,109 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+enum TenantStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  TRIAL
+  CANCELED
+}
+
+model Tenant {
+  id        String       @id @default(uuid())
+  name      String
+  status    TenantStatus
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  users               User[]
+  roles               Role[]
+  userRoles           UserRole[]
+  rolePermissions     RolePermission[]
+  moduleSubscriptions ModuleSubscription[]
+
+  @@index([createdAt])
+}
+
+model User {
+  id        String   @id @default(uuid())
+  tenantId  String
+  email     String
+  name      String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant Tenant     @relation(fields: [tenantId], references: [id])
+  roles  UserRole[]
+
+  @@unique([tenantId, email])
+  @@index([tenantId, createdAt])
+}
+
+model Role {
+  id       String @id @default(uuid())
+  tenantId String
+  name     String
+
+  tenant      Tenant           @relation(fields: [tenantId], references: [id])
+  users       UserRole[]
+  permissions RolePermission[]
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+}
+
+model Permission {
+  id          String @id @default(uuid())
+  code        String @unique
+  description String
+
+  roles RolePermission[]
+}
+
+model UserRole {
+  userId   String
+  roleId   String
+  tenantId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  role   Role   @relation(fields: [roleId], references: [id])
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@id([userId, roleId])
+  @@index([tenantId])
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  tenantId     String
+
+  role       Role       @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+  tenant     Tenant     @relation(fields: [tenantId], references: [id])
+
+  @@id([roleId, permissionId])
+  @@index([tenantId])
+}
+
+model ModuleSubscription {
+  id        String             @id @default(uuid())
+  tenantId  String
+  moduleId  String
+  status    SubscriptionStatus
+  plan      String
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId, createdAt])
+}
