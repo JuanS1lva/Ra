@@ -38,4 +38,5 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/api/prisma ./prisma
 
 EXPOSE 4000
-CMD ["sh", "-c", "node_modules/.bin/prisma migrate deploy && node dist/main.js"]
+# Aplicar migraciones pendientes en un entorno de producción antes de arrancar la API.
+CMD ["sh", "-c", "node_modules/.bin/prisma migrate deploy --schema ./prisma/schema.prisma && node dist/main.js"]
