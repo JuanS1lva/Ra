@@ -19,7 +19,8 @@ FROM deps AS dev
 COPY . .
 WORKDIR /app/apps/api
 EXPOSE 4000
-CMD ["pnpm", "dev"]
+# Aplicar migraciones nuevas en desarrollo y arrancar en modo watch.
+CMD ["sh", "-c", "pnpm prisma:migrate && pnpm dev"]
 
 # Build
 FROM deps AS build
@@ -35,6 +36,8 @@ ENV NODE_ENV=production
 COPY --from=build /app/apps/api/dist ./dist
 COPY --from=deps /app/apps/api/package.json ./package.json
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/api/prisma ./prisma
 
 EXPOSE 4000
-CMD ["node", "dist/main.js"]
+# Aplicar migraciones pendientes en un entorno de producción antes de arrancar la API.
+CMD ["sh", "-c", "node_modules/.bin/prisma migrate deploy --schema ./prisma/schema.prisma && node dist/main.js"]

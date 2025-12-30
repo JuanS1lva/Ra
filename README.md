@@ -39,3 +39,73 @@ Entorno 100% local en Docker, preparado para desplegarse en AWS en el futuro.
 ### Activar Corepack (una sola vez)
 ```bash
 corepack enable
+```
+
+### Migraciones de Prisma
+
+Prisma gestiona el esquema de la base de datos y las migraciones. Todos los comandos deben ejecutarse desde el directorio `apps/api`.
+
+#### Generar el cliente de Prisma
+
+Después de modificar el esquema (`apps/api/prisma/schema.prisma`), genera el cliente de Prisma:
+
+```bash
+cd apps/api
+pnpm prisma:generate
+```
+
+#### Crear una nueva migración
+
+Cuando modifiques el esquema de Prisma, crea una nueva migración:
+
+```bash
+cd apps/api
+pnpm prisma:migrate:create
+```
+
+Este comando:
+- Detecta los cambios en el esquema
+- Crea un archivo de migración SQL en `apps/api/prisma/migrations/`
+- Aplica la migración a la base de datos de desarrollo
+- Regenera automáticamente el cliente de Prisma
+
+**Nota**: En desarrollo con Docker, las migraciones se aplican automáticamente al iniciar el contenedor.
+
+#### Verificar el estado de las migraciones
+
+Para ver qué migraciones están aplicadas y cuáles están pendientes:
+
+```bash
+cd apps/api
+pnpm prisma:migrate:status
+```
+
+#### Aplicar migraciones en producción
+
+En entornos de producción, usa el comando de deploy (no modifica el esquema, solo aplica migraciones pendientes):
+
+```bash
+cd apps/api
+pnpm prisma:migrate:deploy
+```
+
+**Nota**: En producción con Docker, las migraciones se aplican automáticamente antes de iniciar la API.
+
+#### Abrir Prisma Studio
+
+Para visualizar y editar datos de la base de datos de forma interactiva:
+
+```bash
+cd apps/api
+pnpm prisma:studio
+```
+
+Esto abrirá Prisma Studio en `http://localhost:5555` (por defecto).
+
+#### Flujo de trabajo recomendado
+
+1. **Modificar el esquema**: Edita `apps/api/prisma/schema.prisma`
+2. **Crear migración**: `pnpm prisma:migrate:create`
+3. **Revisar la migración**: Verifica el SQL generado en `prisma/migrations/`
+4. **En desarrollo**: Las migraciones se aplican automáticamente al iniciar Docker y si no, correr `pnpm prisma:migrate:deploy`
+5. **En producción**: Las migraciones se aplican automáticamente antes de iniciar la API
