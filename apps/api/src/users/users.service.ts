@@ -30,7 +30,9 @@ export class UsersService {
   }
 
   async findById(id: string, tenantId: string) {
-    return this.prisma.user.findFirst({ where: { id, tenantId } });
+    return this.prisma.user.findFirst({
+      where: { id, tenantId, deletedAt: null },
+    });
   }
 
   async findAll(tenantId: string, page: number, limit: number) {
@@ -38,12 +40,12 @@ export class UsersService {
 
     const [users, total] = await this.prisma.$transaction([
       this.prisma.user.findMany({
-        where: { tenantId },
+        where: { tenantId, deletedAt: null },
         orderBy: { createdAt: 'desc' },
         skip,
         take: limit,
       }),
-      this.prisma.user.count({ where: { tenantId } }),
+      this.prisma.user.count({ where: { tenantId, deletedAt: null } }),
     ]);
 
     return {

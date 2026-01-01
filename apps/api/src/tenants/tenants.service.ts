@@ -18,7 +18,7 @@ export class TenantsService {
   }
 
   async findById(id: string) {
-    return this.prisma.tenant.findUnique({ where: { id } });
+    return this.prisma.tenant.findFirst({ where: { id, deletedAt: null } });
   }
 
   async update(id: string, updateTenantDto: UpdateTenantDto) {
