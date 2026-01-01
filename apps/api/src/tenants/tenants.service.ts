@@ -33,4 +33,17 @@ export class TenantsService {
       data: updateTenantDto,
     });
   }
+
+  async softDelete(id: string) {
+    const existing = await this.findById(id);
+
+    if (!existing) {
+      throw new NotFoundException('Tenant not found');
+    }
+
+    return this.prisma.tenant.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+  }
 }

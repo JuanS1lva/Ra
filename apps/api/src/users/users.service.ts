@@ -71,4 +71,17 @@ export class UsersService {
       data: updateUserDto,
     });
   }
+
+  async softDelete(id: string, tenantId: string) {
+    const existing = await this.findById(id, tenantId);
+
+    if (!existing) {
+      throw new NotFoundException('User not found');
+    }
+
+    return this.prisma.user.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+  }
 }

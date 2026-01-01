@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -47,6 +48,13 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     const user = await this.usersService.update(id, tenantId, updateUserDto);
+
+    return { user };
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string, @TenantId() tenantId: string) {
+    const user = await this.usersService.softDelete(id, tenantId);
 
     return { user };
   }

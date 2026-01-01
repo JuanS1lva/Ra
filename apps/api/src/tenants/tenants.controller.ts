@@ -1,4 +1,13 @@
-import { Body, Controller, Get, NotFoundException, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { TenantsService } from './tenants.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
@@ -32,6 +41,14 @@ export class TenantsController {
   @Patch('me')
   async updateTenant(@TenantId() tenantId: string, @Body() updateTenantDto: UpdateTenantDto) {
     const tenant = await this.tenantsService.update(tenantId, updateTenantDto);
+
+    return { tenant };
+  }
+
+  @UseGuards(TenantGuard)
+  @Delete('me')
+  async deleteTenant(@TenantId() tenantId: string) {
+    const tenant = await this.tenantsService.softDelete(tenantId);
 
     return { tenant };
   }
