@@ -6,6 +6,8 @@ import { ContextModule } from './context/context.module';
 import { ContextMiddleware } from './context/context.middleware';
 import { PrismaModule } from './database/prisma/prisma.module';
 import { HealthModule } from './health/health.module';
+import { TenantsModule } from './tenants/tenants.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { HealthModule } from './health/health.module';
     ContextModule,
     PrismaModule,
     HealthModule,
+    TenantsModule,
+    UsersModule,
   ],
 })
 export class AppModule implements NestModule {
