@@ -5,13 +5,16 @@ import { TenantId } from '../context/decorators/tenant-id.decorator';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { AssignPermissionsDto } from './dto/assign-permissions.dto';
 import { AssignRolesDto } from './dto/assign-roles.dto';
+import { PermissionsGuard } from './permissions.guard';
+import { RequirePermissions } from './require-permissions.decorator';
 
-@UseGuards(TenantGuard)
+@UseGuards(TenantGuard, PermissionsGuard)
 @Controller()
 export class RbacController {
   constructor(private readonly rbacService: RbacService) {}
 
   @Get('permissions')
+  @RequirePermissions(['ROLE_READ'])
   async listPermissions() {
     const permissions = await this.rbacService.listPermissions();
 
@@ -19,6 +22,7 @@ export class RbacController {
   }
 
   @Post('roles')
+  @RequirePermissions(['ROLE_CREATE'])
   async createRole(@TenantId() tenantId: string, @Body() createRoleDto: CreateRoleDto) {
     const role = await this.rbacService.createRole(tenantId, createRoleDto);
 
@@ -26,6 +30,7 @@ export class RbacController {
   }
 
   @Get('roles')
+  @RequirePermissions(['ROLE_READ'])
   async listRoles(@TenantId() tenantId: string) {
     const roles = await this.rbacService.listRoles(tenantId);
 
@@ -33,6 +38,7 @@ export class RbacController {
   }
 
   @Post('roles/:id/permissions')
+  @RequirePermissions(['PERMISSION_ASSIGN'])
   async assignPermissions(
     @Param('id') roleId: string,
     @TenantId() tenantId: string,
@@ -44,6 +50,7 @@ export class RbacController {
   }
 
   @Post('users/:id/roles')
+  @RequirePermissions(['ROLE_ASSIGN'])
   async assignRoles(
     @Param('id') userId: string,
     @TenantId() tenantId: string,

@@ -13,6 +13,8 @@ import { CreateTenantDto } from './dto/create-tenant.dto';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
 import { TenantGuard } from '../context/tenant.guard';
 import { TenantId } from '../context/decorators/tenant-id.decorator';
+import { RequirePermissions } from '../rbac/require-permissions.decorator';
+import { PermissionsGuard } from '../rbac/permissions.guard';
 
 @Controller('tenants')
 export class TenantsController {
@@ -25,7 +27,8 @@ export class TenantsController {
     return { tenant };
   }
 
-  @UseGuards(TenantGuard)
+  @UseGuards(TenantGuard, PermissionsGuard)
+  @RequirePermissions(['TENANT_READ'])
   @Get('me')
   async getTenant(@TenantId() tenantId: string) {
     const tenant = await this.tenantsService.findById(tenantId);
@@ -37,7 +40,8 @@ export class TenantsController {
     return { tenant };
   }
 
-  @UseGuards(TenantGuard)
+  @UseGuards(TenantGuard, PermissionsGuard)
+  @RequirePermissions(['TENANT_UPDATE'])
   @Patch('me')
   async updateTenant(@TenantId() tenantId: string, @Body() updateTenantDto: UpdateTenantDto) {
     const tenant = await this.tenantsService.update(tenantId, updateTenantDto);
@@ -45,7 +49,8 @@ export class TenantsController {
     return { tenant };
   }
 
-  @UseGuards(TenantGuard)
+  @UseGuards(TenantGuard, PermissionsGuard)
+  @RequirePermissions(['TENANT_UPDATE'])
   @Delete('me')
   async deleteTenant(@TenantId() tenantId: string) {
     const tenant = await this.tenantsService.softDelete(tenantId);
