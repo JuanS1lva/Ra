@@ -18,6 +18,7 @@ export class PermissionsGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
     const requiredPermissions = this.reflector.getAllAndOverride<string[]>(
       REQUIRE_PERMISSIONS_KEY,
       [context.getHandler(), context.getClass()],
@@ -27,8 +28,10 @@ export class PermissionsGuard implements CanActivate {
       return true;
     }
 
-    const tenantId = this.requestContext.getTenantId();
-    const userId = this.requestContext.getUserId();
+    const tenantId =
+      this.requestContext.getTenantId() || (request?.headers?.['x-tenant-id'] as string | undefined);
+    const userId =
+      this.requestContext.getUserId() || (request?.headers?.['x-user-id'] as string | undefined);
 
     if (!tenantId || !userId) {
       throw new ForbiddenException('Forbidden');

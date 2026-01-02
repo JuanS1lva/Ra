@@ -5,8 +5,10 @@ import { RequestContextService } from './request-context.service';
 export class TenantGuard implements CanActivate {
   constructor(private readonly requestContext: RequestContextService) {}
 
-  canActivate(_context: ExecutionContext): boolean {
-    const tenantId = this.requestContext.getTenantId();
+  canActivate(context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest();
+    const tenantId =
+      this.requestContext.getTenantId() || (request?.headers?.['x-tenant-id'] as string | undefined);
 
     if (!tenantId) {
       throw new BadRequestException('Missing x-tenant-id header');
