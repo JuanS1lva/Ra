@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   NotFoundException,
+  Param,
   Patch,
   Post,
   UseGuards,
@@ -11,6 +12,7 @@ import {
 import { TenantsService } from './tenants.service';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 import { TenantGuard } from '../context/tenant.guard';
 import { TenantId } from '../context/decorators/tenant-id.decorator';
 import { RequirePermissions } from '../rbac/require-permissions.decorator';
@@ -56,5 +58,18 @@ export class TenantsController {
     const tenant = await this.tenantsService.softDelete(tenantId);
 
     return { tenant };
+  }
+
+  @Post(':id/bootstrap-admin')
+  async bootstrapAdmin(
+    @Param('id') tenantId: string,
+    @Body() createUserDto: CreateUserDto,
+  ) {
+    const user = await this.tenantsService.bootstrapAdminUser(
+      tenantId,
+      createUserDto,
+    );
+
+    return { user };
   }
 }
