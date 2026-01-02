@@ -191,6 +191,7 @@
                 "value": "application/json"
               }
             ],
+            "description": "Crea el usuario administrador inicial para un tenant vacío sin requerir autenticación. Reinténtalo para reactivar relaciones soft-deleted.",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"admin@example.com\",\n  \"name\": \"Tenant Admin\"\n}"
