@@ -15,13 +15,16 @@ import { TenantId } from '../context/decorators/tenant-id.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ListUsersQueryDto } from './dto/list-users.query.dto';
+import { PermissionsGuard } from '../rbac/permissions.guard';
+import { RequirePermissions } from '../rbac/require-permissions.decorator';
 
-@UseGuards(TenantGuard)
+@UseGuards(TenantGuard, PermissionsGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @RequirePermissions(['USER_CREATE'])
   async createUser(
     @TenantId() tenantId: string,
     @Body() createUserDto: CreateUserDto,
@@ -32,6 +35,7 @@ export class UsersController {
   }
 
   @Get()
+  @RequirePermissions(['USER_READ'])
   async listUsers(
     @TenantId() tenantId: string,
     @Query() { page = 1, limit = 20 }: ListUsersQueryDto,
@@ -42,6 +46,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @RequirePermissions(['USER_UPDATE'])
   async updateUser(
     @Param('id') id: string,
     @TenantId() tenantId: string,
@@ -53,6 +58,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @RequirePermissions(['USER_DELETE'])
   async deleteUser(@Param('id') id: string, @TenantId() tenantId: string) {
     const user = await this.usersService.softDelete(id, tenantId);
 
