@@ -72,4 +72,13 @@ export class TenantsController {
 
     return { user };
   }
+
+  // Convenience alias to avoid ordering mistakes in the path
+  @Post('bootstrap-admin/:id')
+  async bootstrapAdminAlias(
+    @Param('id') tenantId: string,
+    @Body() createUserDto: CreateUserDto,
+  ) {
+    return this.bootstrapAdmin(tenantId, createUserDto);
+  }
 }

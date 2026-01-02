@@ -191,7 +191,7 @@
                 "value": "application/json"
               }
             ],
-            "description": "Crea el usuario administrador inicial para un tenant vacío sin requerir autenticación. Reinténtalo para reactivar relaciones soft-deleted.",
+            "description": "Crea el usuario administrador inicial para un tenant vacío sin requerir autenticación. Reinténtalo para reactivar relaciones soft-deleted. Si tu entorno usa una convención distinta de orden en la ruta, puedes alternar a /tenants/bootstrap-admin/{{tenantId}} (alias equivalente).",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"email\": \"admin@example.com\",\n  \"name\": \"Tenant Admin\"\n}"
