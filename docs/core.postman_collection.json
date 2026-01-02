@@ -1,0 +1,268 @@
+{
+  "info": {
+    "name": "Core API (Tenants, Users, Health)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Colección de endpoints principales (tenants, usuarios y salud) con ejemplos de cURL listos para importar en Postman. Usa la variable {{baseUrl}} y, cuando aplique, envía el header x-tenant-id."
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "curl --location --request GET '{{baseUrl}}/health'"
+          }
+        },
+        {
+          "name": "Readiness check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/ready",
+              "host": ["{{baseUrl}}"],
+              "path": ["ready"]
+            },
+            "description": "curl --location --request GET '{{baseUrl}}/ready'"
+          }
+        },
+        {
+          "name": "Context echo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              },
+              {
+                "key": "x-user-id",
+                "value": "{{userId}}",
+                "description": "Opcional"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/context",
+              "host": ["{{baseUrl}}"],
+              "path": ["context"]
+            },
+            "description": "curl --location --request GET '{{baseUrl}}/context' \\\n--header 'x-tenant-id: {{tenantId}}' \\\n--header 'x-user-id: {{userId}}'"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tenants",
+      "item": [
+        {
+          "name": "Crear tenant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tenant Demo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tenants",
+              "host": ["{{baseUrl}}"],
+              "path": ["tenants"]
+            },
+            "description": "curl --location --request POST '{{baseUrl}}/tenants' \\\n--header 'Content-Type: application/json' \\\n--data-raw '{\n  \"name\": \"Tenant Demo\"\n}'"
+          }
+        },
+        {
+          "name": "Obtener tenant actual",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tenants/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["tenants", "me"]
+            },
+            "description": "curl --location --request GET '{{baseUrl}}/tenants/me' \\\n--header 'x-tenant-id: {{tenantId}}'"
+          }
+        },
+        {
+          "name": "Actualizar tenant actual",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tenant Renombrado\",\n  \"status\": \"ACTIVE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tenants/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["tenants", "me"]
+            },
+            "description": "curl --location --request PATCH '{{baseUrl}}/tenants/me' \\\n--header 'Content-Type: application/json' \\\n--header 'x-tenant-id: {{tenantId}}' \\\n--data-raw '{\n  \"name\": \"Tenant Renombrado\",\n  \"status\": \"ACTIVE\"\n}'"
+          }
+        },
+        {
+          "name": "Eliminar tenant actual",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tenants/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["tenants", "me"]
+            },
+            "description": "curl --location --request DELETE '{{baseUrl}}/tenants/me' \\\n--header 'x-tenant-id: {{tenantId}}'"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Crear usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"usuario@example.com\",\n  \"name\": \"Usuario Demo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            },
+            "description": "curl --location --request POST '{{baseUrl}}/users' \\\n--header 'Content-Type: application/json' \\\n--header 'x-tenant-id: {{tenantId}}' \\\n--data-raw '{\n  \"email\": \"usuario@example.com\",\n  \"name\": \"Usuario Demo\"\n}'"
+          }
+        },
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "curl --location --request GET '{{baseUrl}}/users?page=1&limit=20' \\\n--header 'x-tenant-id: {{tenantId}}'"
+          }
+        },
+        {
+          "name": "Actualizar usuario",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Usuario Actualizado\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            },
+            "description": "curl --location --request PATCH '{{baseUrl}}/users/{{userId}}' \\\n--header 'Content-Type: application/json' \\\n--header 'x-tenant-id: {{tenantId}}' \\\n--data-raw '{\n  \"name\": \"Usuario Actualizado\",\n  \"isActive\": true\n}'"
+          }
+        },
+        {
+          "name": "Eliminar usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            },
+            "description": "curl --location --request DELETE '{{baseUrl}}/users/{{userId}}' \\\n--header 'x-tenant-id: {{tenantId}}'"
+          }
+        }
+      ]
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "tenantId",
+      "value": "tenant-demo"
+    },
+    {
+      "key": "userId",
+      "value": "replace-with-user-id"
+    }
+  ]
+}
