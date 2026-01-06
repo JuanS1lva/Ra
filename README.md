@@ -35,12 +35,36 @@ Entorno 100% local en Docker, preparado para desplegarse en AWS en el futuro.
 
 > Nota: aunque todo corre en Docker, se recomienda tener Node 20 local para tooling, linters, scripts y edición.  
 > La imagen Docker también usa Node 20.
+---
 
 ### Activar Corepack (una sola vez)
 ```bash
 corepack enable
 ```
 
+---
+
+## Setup inicial (primer ciclo)
+
+Para la primera configuración del proyecto, ejecuta estos comandos en orden:
+
+```bash
+# 1. Iniciar servicios de base de datos (PostgreSQL y Redis)
+docker compose up -d db redis
+
+# 2. Generar el cliente de Prisma
+docker compose exec api pnpm prisma:generate
+
+# 3. Aplicar migraciones iniciales
+docker compose exec api pnpm prisma:migrate:deploy
+
+# 4. Poblar la base de datos con datos iniciales (seed)
+docker compose exec api pnpm seed
+```
+
+> **Nota**: Estos comandos solo son necesarios la primera vez. En ciclos posteriores, las migraciones y el cliente de Prisma se generan automáticamente al iniciar los contenedores.
+
+---
 ### Migraciones de Prisma
 
 Prisma gestiona el esquema de la base de datos y las migraciones. Todos los comandos deben ejecutarse desde el directorio `apps/api`.
