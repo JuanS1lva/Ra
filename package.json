@@ -11,6 +11,7 @@
       "web:dev": "pnpm --filter @app/web dev",
       "prisma:generate": "pnpm --filter @app/api prisma generate",
       "prisma:migrate": "pnpm --filter @app/api prisma migrate dev",
-      "prisma:studio": "pnpm --filter @app/api prisma studio"
+      "prisma:studio": "pnpm --filter @app/api prisma studio",
+      "seed": "pnpm --filter @app/api seed"
     }
   }
