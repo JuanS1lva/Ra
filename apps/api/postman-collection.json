@@ -502,6 +502,79 @@
         }
       ]
     }
+    ,
+    {
+      "name": "Modules",
+      "item": [
+        {
+          "name": "List modules",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/modules",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "modules"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Enable module",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/modules/{{moduleId}}/enable",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "modules",
+                "{{moduleId}}",
+                "enable"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Disable module",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-tenant-id",
+                "value": "{{tenantId}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/modules/{{moduleId}}/disable",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "modules",
+                "{{moduleId}}",
+                "disable"
+              ]
+            }
+          }
+        }
+      ]
+    }
   ],
   "variable": [
     {
@@ -519,6 +592,10 @@
     {
       "key": "roleId",
       "value": "YOUR_ROLE_ID"
+    },
+    {
+      "key": "moduleId",
+      "value": "tickets"
     }
   ]
 }

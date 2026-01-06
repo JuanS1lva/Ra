@@ -9,6 +9,7 @@ import { HealthModule } from './health/health.module';
 import { TenantsModule } from './tenants/tenants.module';
 import { UsersModule } from './users/users.module';
 import { RbacModule } from './rbac/rbac.module';
+import { ModulesRegistryModule } from './modules-registry/modules-registry.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { RbacModule } from './rbac/rbac.module';
     TenantsModule,
     UsersModule,
     RbacModule,
+    ModulesRegistryModule,
   ],
 })
 export class AppModule implements NestModule {
