@@ -1,7 +1,7 @@
 # Ra
 Everything is possible.
 
-# Intranet Platform (Monorepo)
+# APPBASE (Monorepo)
 
 Plataforma tipo intranet para pymes, con módulos base (TI, Docs, Tickets) y arquitectura modular para añadir módulos especializados por empresa.  
 Entorno 100% local en Docker, preparado para desplegarse en AWS en el futuro.
