@@ -7,6 +7,8 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const corsOrigins = process.env.CORS_ORIGINS?.split(',').map((o) => o.trim()) ?? [];
+  app.enableCors({ origin: corsOrigins.length ? corsOrigins : true });
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new CorrelationIdInterceptor());
   app.useGlobalPipes(
