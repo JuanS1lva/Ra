@@ -148,7 +148,7 @@ const pages = () => Math.ceil(total.value / 20)
   <div class="space-y-4">
     <!-- Toolbar -->
     <div class="flex items-center justify-between">
-      <p class="text-sm text-slate-500">{{ total }} user{{ total !== 1 ? 's' : '' }}</p>
+      <p class="text-sm text-slate-500 dark:text-slate-400">{{ total }} user{{ total !== 1 ? 's' : '' }}</p>
       <button
         class="inline-flex items-center gap-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 text-sm font-semibold transition-colors"
         @click="showCreate = true"
@@ -160,20 +160,19 @@ const pages = () => Math.ceil(total.value / 20)
       </button>
     </div>
 
-    <!-- Error -->
-    <div v-if="error" class="rounded-xl bg-red-50 border border-red-200 px-5 py-3">
-      <p class="text-sm text-red-600">{{ error }}</p>
+    <div v-if="error" class="rounded-xl bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 px-5 py-3">
+      <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
     </div>
 
     <!-- Table -->
-    <div class="rounded-2xl bg-white border border-slate-200 overflow-hidden">
+    <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden">
       <table class="w-full text-sm">
         <thead>
-          <tr class="border-b border-slate-100">
-            <th class="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Name</th>
-            <th class="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</th>
-            <th class="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-            <th class="text-right px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
+          <tr class="border-b border-slate-100 dark:border-slate-800">
+            <th class="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Name</th>
+            <th class="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Email</th>
+            <th class="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+            <th class="text-right px-5 py-3.5 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -189,41 +188,41 @@ const pages = () => Math.ceil(total.value / 20)
             </td>
           </tr>
           <tr v-else-if="list.length === 0">
-            <td colspan="4" class="px-5 py-12 text-center text-slate-400 text-sm">No users yet.</td>
+            <td colspan="4" class="px-5 py-12 text-center text-slate-400 dark:text-slate-500 text-sm">No users yet.</td>
           </tr>
           <tr
             v-for="user in list"
             :key="user.id"
-            class="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors"
+            class="border-b border-slate-100 dark:border-slate-800 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
           >
             <td class="px-5 py-3.5">
               <div class="flex items-center gap-3">
-                <div class="h-8 w-8 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                  <span class="text-orange-600 font-semibold text-xs">{{ user.name.charAt(0).toUpperCase() }}</span>
+                <div class="h-8 w-8 rounded-full bg-orange-100 dark:bg-orange-950 flex items-center justify-center flex-shrink-0">
+                  <span class="text-orange-600 dark:text-orange-400 font-semibold text-xs">{{ user.name.charAt(0).toUpperCase() }}</span>
                 </div>
-                <span class="font-medium text-slate-800">{{ user.name }}</span>
+                <span class="font-medium text-slate-800 dark:text-slate-100">{{ user.name }}</span>
               </div>
             </td>
-            <td class="px-5 py-3.5 text-slate-500 font-mono text-xs">{{ user.email }}</td>
+            <td class="px-5 py-3.5 text-slate-500 dark:text-slate-400 font-mono text-xs">{{ user.email }}</td>
             <td class="px-5 py-3.5">
               <StatusBadge :status="user.isActive ? 'ACTIVE' : 'INACTIVE'" />
             </td>
             <td class="px-5 py-3.5">
               <div class="flex items-center justify-end gap-1">
                 <button
-                  class="rounded-lg px-2.5 py-1.5 text-xs text-slate-600 hover:bg-slate-100 font-medium transition-colors"
+                  class="rounded-lg px-2.5 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors"
                   @click="openRoles(user)"
                 >
                   Roles
                 </button>
                 <button
-                  class="rounded-lg px-2.5 py-1.5 text-xs text-slate-600 hover:bg-slate-100 font-medium transition-colors"
+                  class="rounded-lg px-2.5 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors"
                   @click="openEdit(user)"
                 >
                   Edit
                 </button>
                 <button
-                  class="rounded-lg px-2.5 py-1.5 text-xs text-red-500 hover:bg-red-50 font-medium transition-colors"
+                  class="rounded-lg px-2.5 py-1.5 text-xs text-red-500 hover:bg-red-50 dark:hover:bg-red-950 font-medium transition-colors"
                   @click="openDelete(user)"
                 >
                   Delete
@@ -235,17 +234,17 @@ const pages = () => Math.ceil(total.value / 20)
       </table>
 
       <!-- Pagination -->
-      <div v-if="pages() > 1" class="flex items-center justify-between px-5 py-3 border-t border-slate-100">
+      <div v-if="pages() > 1" class="flex items-center justify-between px-5 py-3 border-t border-slate-100 dark:border-slate-800">
         <button
-          class="text-xs text-slate-500 hover:text-slate-800 disabled:opacity-40 disabled:cursor-not-allowed"
+          class="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed"
           :disabled="page <= 1"
           @click="page--; load()"
         >
           ← Previous
         </button>
-        <span class="text-xs text-slate-400">Page {{ page }} of {{ pages() }}</span>
+        <span class="text-xs text-slate-400 dark:text-slate-500">Page {{ page }} of {{ pages() }}</span>
         <button
-          class="text-xs text-slate-500 hover:text-slate-800 disabled:opacity-40 disabled:cursor-not-allowed"
+          class="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed"
           :disabled="page >= pages()"
           @click="page++; load()"
         >
@@ -259,28 +258,28 @@ const pages = () => Math.ceil(total.value / 20)
   <BaseModal title="New user" :open="showCreate" @close="showCreate = false">
     <form class="space-y-4" @submit.prevent="createUser">
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1.5">Full name</label>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Full name</label>
         <input
           v-model="createForm.name"
           type="text"
           required
           placeholder="Jane Doe"
-          class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2.5 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
         />
       </div>
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email</label>
         <input
           v-model="createForm.email"
           type="email"
           required
           placeholder="jane@example.com"
-          class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2.5 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
         />
       </div>
-      <div v-if="createError" class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">{{ createError }}</div>
+      <div v-if="createError" class="rounded-lg bg-red-50 dark:bg-red-950 px-4 py-3 text-sm text-red-600 dark:text-red-400">{{ createError }}</div>
       <div class="flex justify-end gap-3 pt-1">
-        <button type="button" class="px-4 py-2 text-sm text-slate-600 hover:text-slate-800" @click="showCreate = false">Cancel</button>
+        <button type="button" class="px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200" @click="showCreate = false">Cancel</button>
         <button
           type="submit"
           :disabled="creating"
@@ -296,19 +295,19 @@ const pages = () => Math.ceil(total.value / 20)
   <BaseModal title="Edit user" :open="showEdit" @close="showEdit = false">
     <form class="space-y-4" @submit.prevent="updateUser">
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1.5">Full name</label>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Full name</label>
         <input
           v-model="editForm.name"
           type="text"
           required
-          class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2.5 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
         />
       </div>
       <div class="flex items-center gap-3">
         <button
           type="button"
           class="relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200"
-          :class="editForm.isActive ? 'bg-orange-500' : 'bg-slate-200'"
+          :class="editForm.isActive ? 'bg-orange-500' : 'bg-slate-200 dark:bg-slate-700'"
           @click="editForm.isActive = !editForm.isActive"
         >
           <span
@@ -316,11 +315,11 @@ const pages = () => Math.ceil(total.value / 20)
             :class="editForm.isActive ? 'translate-x-4' : 'translate-x-0'"
           />
         </button>
-        <label class="text-sm text-slate-700">Active</label>
+        <label class="text-sm text-slate-700 dark:text-slate-300">Active</label>
       </div>
-      <div v-if="editError" class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">{{ editError }}</div>
+      <div v-if="editError" class="rounded-lg bg-red-50 dark:bg-red-950 px-4 py-3 text-sm text-red-600 dark:text-red-400">{{ editError }}</div>
       <div class="flex justify-end gap-3 pt-1">
-        <button type="button" class="px-4 py-2 text-sm text-slate-600 hover:text-slate-800" @click="showEdit = false">Cancel</button>
+        <button type="button" class="px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200" @click="showEdit = false">Cancel</button>
         <button
           type="submit"
           :disabled="editing"
@@ -338,8 +337,10 @@ const pages = () => Math.ceil(total.value / 20)
       <label
         v-for="role in allRoles"
         :key="role.id"
-        class="flex items-center gap-3 rounded-lg border border-slate-200 px-4 py-3 cursor-pointer hover:bg-slate-50 transition-colors"
-        :class="selectedRoleIds.includes(role.id) ? 'border-orange-300 bg-orange-50' : ''"
+        class="flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition-colors"
+        :class="selectedRoleIds.includes(role.id)
+          ? 'border-orange-300 bg-orange-50 dark:border-orange-700 dark:bg-orange-950'
+          : 'border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'"
       >
         <input
           type="checkbox"
@@ -347,13 +348,13 @@ const pages = () => Math.ceil(total.value / 20)
           class="accent-orange-500"
           @change="toggleRole(role.id)"
         />
-        <span class="text-sm font-medium text-slate-700">{{ role.name }}</span>
-        <span class="ml-auto text-xs text-slate-400">{{ role.permissions.length }} perms</span>
+        <span class="text-sm font-medium text-slate-700 dark:text-slate-200">{{ role.name }}</span>
+        <span class="ml-auto text-xs text-slate-400 dark:text-slate-500">{{ role.permissions.length }} perms</span>
       </label>
     </div>
-    <div v-if="rolesError" class="mt-3 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">{{ rolesError }}</div>
+    <div v-if="rolesError" class="mt-3 rounded-lg bg-red-50 dark:bg-red-950 px-4 py-3 text-sm text-red-600 dark:text-red-400">{{ rolesError }}</div>
     <div class="flex justify-end gap-3 mt-4">
-      <button class="px-4 py-2 text-sm text-slate-600 hover:text-slate-800" @click="showRoles = false">Cancel</button>
+      <button class="px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200" @click="showRoles = false">Cancel</button>
       <button
         :disabled="assigningRoles"
         class="rounded-lg bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 text-sm font-semibold disabled:opacity-60 transition-colors"
@@ -366,11 +367,11 @@ const pages = () => Math.ceil(total.value / 20)
 
   <!-- Delete modal -->
   <BaseModal title="Delete user" :open="showDelete" @close="showDelete = false">
-    <p class="text-sm text-slate-600">
+    <p class="text-sm text-slate-600 dark:text-slate-300">
       Are you sure you want to delete <strong>{{ deleteTarget?.name }}</strong>? This action can be undone via the database.
     </p>
     <div class="flex justify-end gap-3 mt-5">
-      <button class="px-4 py-2 text-sm text-slate-600 hover:text-slate-800" @click="showDelete = false">Cancel</button>
+      <button class="px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200" @click="showDelete = false">Cancel</button>
       <button
         :disabled="deleting"
         class="rounded-lg bg-red-500 hover:bg-red-600 text-white px-4 py-2 text-sm font-semibold disabled:opacity-60 transition-colors"

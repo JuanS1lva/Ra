@@ -15,12 +15,12 @@ defineEmits<{ close: [] }>()
         <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="$emit('close')" />
 
         <!-- Panel -->
-        <div class="relative w-full max-w-lg rounded-2xl bg-white shadow-2xl">
+        <div class="relative w-full max-w-lg rounded-2xl bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-700">
           <!-- Header -->
-          <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-            <h2 class="text-base font-semibold text-slate-800">{{ title }}</h2>
+          <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 px-6 py-4">
+            <h2 class="text-base font-semibold text-slate-800 dark:text-slate-100">{{ title }}</h2>
             <button
-              class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
+              class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
               @click="$emit('close')"
             >
               <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -44,15 +44,8 @@ defineEmits<{ close: [] }>()
 .modal-leave-active {
   transition: opacity 0.15s ease;
 }
-.modal-enter-active .relative,
-.modal-leave-active .relative {
-  transition: transform 0.15s ease, opacity 0.15s ease;
-}
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
-}
-.modal-enter-from .relative {
-  transform: scale(0.95);
 }
 </style>

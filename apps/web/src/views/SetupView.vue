@@ -22,7 +22,7 @@ function submit() {
 </script>
 
 <template>
-  <div class="min-h-screen flex" style="background: #0f172a">
+  <div class="min-h-screen flex bg-slate-900">
     <!-- Left brand panel -->
     <div class="hidden lg:flex w-1/2 flex-col justify-between p-12">
       <div class="flex items-center gap-3">
@@ -65,7 +65,7 @@ function submit() {
     </div>
 
     <!-- Right form panel -->
-    <div class="flex-1 flex items-center justify-center p-8 bg-slate-50">
+    <div class="flex-1 flex items-center justify-center p-8 bg-slate-50 dark:bg-slate-950">
       <div class="w-full max-w-md">
         <!-- Mobile logo -->
         <div class="flex items-center gap-2 mb-8 lg:hidden">
@@ -74,40 +74,40 @@ function submit() {
               <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z" />
             </svg>
           </div>
-          <span class="text-slate-900 font-bold text-lg">APPBASE</span>
+          <span class="text-slate-900 dark:text-white font-bold text-lg">APPBASE</span>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
           <div class="mb-6">
-            <h1 class="text-2xl font-bold text-slate-900">Enter your session</h1>
-            <p class="text-slate-500 text-sm mt-1">
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Enter your session</h1>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
               Paste your Tenant ID and User ID to access the panel.
             </p>
           </div>
 
           <form class="space-y-4" @submit.prevent="submit">
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1.5">Tenant ID</label>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Tenant ID</label>
               <input
                 v-model="tenantId"
                 type="text"
                 placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-                class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm font-mono text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+                class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2.5 text-sm font-mono text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
               />
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1.5">User ID</label>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">User ID</label>
               <input
                 v-model="userId"
                 type="text"
                 placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-                class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm font-mono text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+                class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2.5 text-sm font-mono text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
               />
             </div>
 
-            <div v-if="error" class="rounded-lg bg-red-50 border border-red-200 px-4 py-3">
-              <p class="text-sm text-red-600">{{ error }}</p>
+            <div v-if="error" class="rounded-lg bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 px-4 py-3">
+              <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
             </div>
 
             <button
@@ -118,12 +118,12 @@ function submit() {
             </button>
           </form>
 
-          <div class="mt-6 rounded-lg bg-slate-50 border border-slate-200 p-4">
-            <p class="text-xs font-semibold text-slate-600 mb-2">How to find your IDs</p>
-            <ol class="text-xs text-slate-500 space-y-1 list-decimal list-inside">
-              <li>Start the API: <code class="bg-slate-200 px-1 rounded text-slate-700">docker compose up api db redis</code></li>
-              <li>Run: <code class="bg-slate-200 px-1 rounded text-slate-700">cd apps/api && pnpm prisma:studio</code></li>
-              <li>Open <code class="bg-slate-200 px-1 rounded text-slate-700">localhost:5555</code> → Tenant / User tables</li>
+          <div class="mt-6 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4">
+            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">How to find your IDs</p>
+            <ol class="text-xs text-slate-500 dark:text-slate-400 space-y-1 list-decimal list-inside">
+              <li>Start the API: <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-slate-700 dark:text-slate-300">docker compose up api db redis</code></li>
+              <li>Run: <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-slate-700 dark:text-slate-300">cd apps/api && pnpm prisma:studio</code></li>
+              <li>Open <code class="bg-slate-200 dark:bg-slate-700 px-1 rounded text-slate-700 dark:text-slate-300">localhost:5555</code> → Tenant / User tables</li>
             </ol>
           </div>
         </div>

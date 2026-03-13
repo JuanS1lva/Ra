@@ -54,34 +54,37 @@ async function toggle(mod: AppModule) {
 
 <template>
   <div class="space-y-4">
-    <p class="text-sm text-slate-500">Control which modules are available for this tenant.</p>
+    <p class="text-sm text-slate-500 dark:text-slate-400">Control which modules are available for this tenant.</p>
 
-    <div v-if="error" class="rounded-xl bg-red-50 border border-red-200 px-5 py-3">
-      <p class="text-sm text-red-600">{{ error }}</p>
+    <div v-if="error" class="rounded-xl bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 px-5 py-3">
+      <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
     </div>
 
-    <!-- Loading -->
     <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div v-for="i in 3" :key="i" class="rounded-2xl bg-white border border-slate-200 h-40 animate-pulse" />
+      <div
+        v-for="i in 3"
+        :key="i"
+        class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 h-40 animate-pulse"
+      />
     </div>
 
-    <!-- Module cards -->
     <div v-else class="grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div
         v-for="mod in list"
         :key="mod.id"
-        class="rounded-2xl bg-white border px-6 py-5 flex flex-col gap-4 transition-all"
-        :class="isEnabled(mod.status) ? 'border-orange-200 shadow-sm' : 'border-slate-200'"
+        class="rounded-2xl bg-white dark:bg-slate-900 border px-6 py-5 flex flex-col gap-4 transition-all"
+        :class="isEnabled(mod.status)
+          ? 'border-orange-200 dark:border-orange-800 shadow-sm'
+          : 'border-slate-200 dark:border-slate-800'"
       >
-        <!-- Icon + name -->
         <div class="flex items-start justify-between">
           <div
             class="h-11 w-11 rounded-xl flex items-center justify-center"
-            :class="isEnabled(mod.status) ? 'bg-orange-100' : 'bg-slate-100'"
+            :class="isEnabled(mod.status) ? 'bg-orange-100 dark:bg-orange-950' : 'bg-slate-100 dark:bg-slate-800'"
           >
             <svg
               class="h-5 w-5"
-              :class="isEnabled(mod.status) ? 'text-orange-600' : 'text-slate-400'"
+              :class="isEnabled(mod.status) ? 'text-orange-600 dark:text-orange-400' : 'text-slate-400 dark:text-slate-500'"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -93,16 +96,15 @@ async function toggle(mod: AppModule) {
         </div>
 
         <div>
-          <p class="font-semibold text-slate-800">{{ mod.name }}</p>
-          <p class="text-xs text-slate-400 mt-0.5 capitalize">{{ mod.id }}</p>
+          <p class="font-semibold text-slate-800 dark:text-slate-100">{{ mod.name }}</p>
+          <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5 capitalize">{{ mod.id }}</p>
         </div>
 
-        <!-- Toggle -->
         <button
           :disabled="toggling === mod.id"
           class="mt-auto w-full rounded-lg py-2 text-sm font-semibold transition-colors disabled:opacity-50"
           :class="isEnabled(mod.status)
-            ? 'bg-slate-100 text-slate-600 hover:bg-red-50 hover:text-red-600'
+            ? 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-red-50 dark:hover:bg-red-950 hover:text-red-600 dark:hover:text-red-400'
             : 'bg-orange-500 text-white hover:bg-orange-600'"
           @click="toggle(mod)"
         >

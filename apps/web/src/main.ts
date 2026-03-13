@@ -5,6 +5,12 @@ import router from './router'
 import './style.css'
 
 const app = createApp(App)
-app.use(createPinia())
+const pinia = createPinia()
+app.use(pinia)
 app.use(router)
+
+// Bootstrap theme before first render
+import { useThemeStore } from './stores/theme'
+useThemeStore()
+
 app.mount('#app')

@@ -9,13 +9,11 @@ const allPermissions = ref<Permission[]>([])
 const loading = ref(true)
 const error = ref('')
 
-// Create modal
 const showCreate = ref(false)
 const creating = ref(false)
 const newRoleName = ref('')
 const createError = ref('')
 
-// Permissions modal
 const showPerms = ref(false)
 const savingPerms = ref(false)
 const permsTarget = ref<Role | null>(null)
@@ -81,7 +79,6 @@ async function savePerms() {
   }
 }
 
-// Group permissions by resource
 const grouped = (perms: Permission[]) => {
   const map: Record<string, Permission[]> = {}
   for (const p of perms) {
@@ -94,9 +91,8 @@ const grouped = (perms: Permission[]) => {
 
 <template>
   <div class="space-y-4">
-    <!-- Toolbar -->
     <div class="flex items-center justify-between">
-      <p class="text-sm text-slate-500">{{ list.length }} role{{ list.length !== 1 ? 's' : '' }}</p>
+      <p class="text-sm text-slate-500 dark:text-slate-400">{{ list.length }} role{{ list.length !== 1 ? 's' : '' }}</p>
       <button
         class="inline-flex items-center gap-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 text-sm font-semibold transition-colors"
         @click="showCreate = true"
@@ -108,33 +104,35 @@ const grouped = (perms: Permission[]) => {
       </button>
     </div>
 
-    <div v-if="error" class="rounded-xl bg-red-50 border border-red-200 px-5 py-3">
-      <p class="text-sm text-red-600">{{ error }}</p>
+    <div v-if="error" class="rounded-xl bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 px-5 py-3">
+      <p class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>
     </div>
 
-    <!-- Loading -->
     <div v-if="loading" class="grid gap-3">
-      <div v-for="i in 3" :key="i" class="rounded-2xl bg-white border border-slate-200 h-20 animate-pulse" />
+      <div
+        v-for="i in 3"
+        :key="i"
+        class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 h-20 animate-pulse"
+      />
     </div>
 
-    <!-- Roles grid -->
     <div v-else class="grid gap-3">
       <div
         v-for="role in list"
         :key="role.id"
-        class="rounded-2xl bg-white border border-slate-200 px-5 py-4 flex items-center justify-between"
+        class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-5 py-4 flex items-center justify-between"
       >
         <div class="flex items-center gap-4">
-          <div class="h-10 w-10 rounded-xl bg-orange-100 flex items-center justify-center flex-shrink-0">
-            <svg class="h-5 w-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="h-10 w-10 rounded-xl bg-orange-100 dark:bg-orange-950 flex items-center justify-center flex-shrink-0">
+            <svg class="h-5 w-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
           </div>
           <div>
-            <p class="font-semibold text-slate-800">{{ role.name }}</p>
-            <p class="text-xs text-slate-400 mt-0.5">
+            <p class="font-semibold text-slate-800 dark:text-slate-100">{{ role.name }}</p>
+            <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
               {{ role.permissions.length }} permission{{ role.permissions.length !== 1 ? 's' : '' }}
-              <span v-if="role.permissions.length > 0" class="ml-1 text-slate-300">·</span>
+              <span v-if="role.permissions.length > 0" class="ml-1 text-slate-300 dark:text-slate-600">·</span>
               <span v-if="role.permissions.length > 0" class="ml-1">
                 {{ role.permissions.slice(0, 3).map((p) => p.permission.code).join(', ') }}{{ role.permissions.length > 3 ? '…' : '' }}
               </span>
@@ -142,15 +140,18 @@ const grouped = (perms: Permission[]) => {
           </div>
         </div>
         <button
-          class="rounded-lg px-3 py-2 text-xs text-slate-600 hover:bg-slate-100 font-medium transition-colors border border-slate-200"
+          class="rounded-lg px-3 py-2 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors border border-slate-200 dark:border-slate-700"
           @click="openPerms(role)"
         >
           Edit permissions
         </button>
       </div>
 
-      <div v-if="list.length === 0" class="rounded-2xl bg-white border border-slate-200 px-5 py-12 text-center">
-        <p class="text-slate-400 text-sm">No roles yet. Create one to get started.</p>
+      <div
+        v-if="list.length === 0"
+        class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-5 py-12 text-center"
+      >
+        <p class="text-slate-400 dark:text-slate-500 text-sm">No roles yet. Create one to get started.</p>
       </div>
     </div>
   </div>
@@ -159,18 +160,18 @@ const grouped = (perms: Permission[]) => {
   <BaseModal title="New role" :open="showCreate" @close="showCreate = false">
     <form class="space-y-4" @submit.prevent="createRole">
       <div>
-        <label class="block text-sm font-medium text-slate-700 mb-1.5">Role name</label>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Role name</label>
         <input
           v-model="newRoleName"
           type="text"
           required
           placeholder="e.g. Manager"
-          class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          class="w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3.5 py-2.5 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
         />
       </div>
-      <div v-if="createError" class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">{{ createError }}</div>
+      <div v-if="createError" class="rounded-lg bg-red-50 dark:bg-red-950 px-4 py-3 text-sm text-red-600 dark:text-red-400">{{ createError }}</div>
       <div class="flex justify-end gap-3 pt-1">
-        <button type="button" class="px-4 py-2 text-sm text-slate-600" @click="showCreate = false">Cancel</button>
+        <button type="button" class="px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200" @click="showCreate = false">Cancel</button>
         <button
           type="submit"
           :disabled="creating"
@@ -186,13 +187,15 @@ const grouped = (perms: Permission[]) => {
   <BaseModal :title="`Permissions — ${permsTarget?.name ?? ''}`" :open="showPerms" @close="showPerms = false">
     <div class="max-h-96 overflow-y-auto space-y-4">
       <div v-for="(perms, resource) in grouped(allPermissions)" :key="resource">
-        <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{ resource }}</p>
+        <p class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">{{ resource }}</p>
         <div class="space-y-1.5">
           <label
             v-for="perm in perms"
             :key="perm.code"
-            class="flex items-center gap-3 rounded-lg border border-slate-200 px-3.5 py-2.5 cursor-pointer hover:bg-slate-50 transition-colors"
-            :class="selectedCodes.includes(perm.code) ? 'border-orange-300 bg-orange-50' : ''"
+            class="flex items-center gap-3 rounded-lg border px-3.5 py-2.5 cursor-pointer transition-colors"
+            :class="selectedCodes.includes(perm.code)
+              ? 'border-orange-300 bg-orange-50 dark:border-orange-700 dark:bg-orange-950'
+              : 'border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'"
           >
             <input
               type="checkbox"
@@ -201,18 +204,18 @@ const grouped = (perms: Permission[]) => {
               @change="togglePerm(perm.code)"
             />
             <div>
-              <p class="text-sm font-medium text-slate-700 font-mono">{{ perm.code }}</p>
-              <p class="text-xs text-slate-400">{{ perm.description }}</p>
+              <p class="text-sm font-medium text-slate-700 dark:text-slate-200 font-mono">{{ perm.code }}</p>
+              <p class="text-xs text-slate-400 dark:text-slate-500">{{ perm.description }}</p>
             </div>
           </label>
         </div>
       </div>
     </div>
-    <div v-if="permsError" class="mt-3 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">{{ permsError }}</div>
+    <div v-if="permsError" class="mt-3 rounded-lg bg-red-50 dark:bg-red-950 px-4 py-3 text-sm text-red-600 dark:text-red-400">{{ permsError }}</div>
     <div class="flex items-center justify-between mt-4">
-      <p class="text-xs text-slate-400">{{ selectedCodes.length }} selected</p>
+      <p class="text-xs text-slate-400 dark:text-slate-500">{{ selectedCodes.length }} selected</p>
       <div class="flex gap-3">
-        <button class="px-4 py-2 text-sm text-slate-600" @click="showPerms = false">Cancel</button>
+        <button class="px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200" @click="showPerms = false">Cancel</button>
         <button
           :disabled="savingPerms"
           class="rounded-lg bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 text-sm font-semibold disabled:opacity-60 transition-colors"

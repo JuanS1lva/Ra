@@ -2,10 +2,12 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useContextStore } from '../stores/context'
+import { useThemeStore } from '../stores/theme'
 
 const route = useRoute()
 const router = useRouter()
 const ctx = useContextStore()
+const theme = useThemeStore()
 
 const nav = [
   { name: 'Dashboard', to: '/', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
@@ -35,9 +37,9 @@ function logout() {
 </script>
 
 <template>
-  <div class="flex h-screen bg-slate-50 overflow-hidden">
-    <!-- Sidebar -->
-    <aside class="w-60 flex-shrink-0 flex flex-col" style="background: #0f172a">
+  <div class="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
+    <!-- Sidebar (always dark) -->
+    <aside class="w-60 flex-shrink-0 flex flex-col bg-slate-900">
       <!-- Logo -->
       <div class="h-16 flex items-center px-6 border-b border-slate-800">
         <div class="flex items-center gap-2.5">
@@ -56,7 +58,7 @@ function logout() {
           v-for="item in nav"
           :key="item.to"
           :to="item.to"
-          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors group"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
           :class="isActive(item.to)
             ? 'bg-orange-500 text-white'
             : 'text-slate-400 hover:bg-slate-800 hover:text-slate-100'"
@@ -92,8 +94,24 @@ function logout() {
     <!-- Main -->
     <div class="flex-1 flex flex-col min-w-0">
       <!-- Top bar -->
-      <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 flex-shrink-0">
-        <h1 class="text-lg font-semibold text-slate-800">{{ pageTitle }}</h1>
+      <header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 flex-shrink-0">
+        <h1 class="text-lg font-semibold text-slate-800 dark:text-slate-100">{{ pageTitle }}</h1>
+
+        <!-- Dark mode toggle -->
+        <button
+          class="h-9 w-9 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          :title="theme.isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+          @click="theme.toggle()"
+        >
+          <!-- Sun (shown in dark mode) -->
+          <svg v-if="theme.isDark" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </svg>
+          <!-- Moon (shown in light mode) -->
+          <svg v-else class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
       </header>
 
       <!-- Content -->
